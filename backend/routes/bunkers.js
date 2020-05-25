@@ -19,4 +19,31 @@ router.route('/add').post((req, res) => {
     .catch(err => res.status(400).json('Error: ' + err));
 });
 
+router.route('/:id').get((req, res) => {
+  Bunker.findById(req.params.id)
+    .then(Bunker => res.json(Bunker))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/:id').delete((req, res) => {
+  Bunker.findByIdAndDelete(req.params.id)
+    .then(() => res.json('Bunker deleted.'))
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/update/:id').post((req, res) => {
+  Bunker.findById(req.params.id)
+    .then(Bunker => {
+      Bunker.number = Number(req.body.number);
+      Bunker.lat = Number(req.body.lat);
+      Bunker.long = Number(req.body.long);
+
+      Bunker.save()
+        .then(() => res.json('Bunker updated!'))
+        .catch(err => res.status(400).json('Error: ' + err));
+    })
+    .catch(err => res.status(400).json('Error: ' + err));
+});
+
+
 module.exports = router;
