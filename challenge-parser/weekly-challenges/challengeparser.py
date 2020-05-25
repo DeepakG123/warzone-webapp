@@ -8,12 +8,14 @@ soup = BeautifulSoup(page.content, 'html.parser')
 
 #Find warzone weekly challenges
 warzoneh2 = soup.find("h2", id = "warzone")
-uls = []
+challenges = ""
 for nextSibling in warzoneh2.findNextSiblings():
     if nextSibling.name == 'figure':
         break
     if nextSibling.name == 'ul':
-        uls.append(nextSibling)
+        challenges = nextSibling
 
-for item in uls:
-    print(item);
+challenge_list = challenges.text.split("XP)")
+
+for item in challenge_list:
+    print(item + "XP)");
